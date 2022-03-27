@@ -1,5 +1,6 @@
 package com.engage.so.api;
 
+import com.engage.so.EngageClient;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
@@ -9,12 +10,10 @@ import java.util.HashMap;
 
 public class ApiConnection {
     public final String rootUrl = "https://api.engage.so";
-    private String key;
-    private String secret;
+    private EngageClient client;
 
-    public ApiConnection (String key, String secret){
-        this.key = key;
-        this.secret = secret;
+    public ApiConnection (EngageClient client){
+        this.client = client;
         Unirest.config()
                 .defaultBaseUrl(rootUrl)
                 .setDefaultHeader("Accept", "application/json")
@@ -30,7 +29,7 @@ public class ApiConnection {
      */
     protected JSONObject makeRequest(String method, String url, HashMap<String, Object> body){
         HttpResponse<JsonNode> response = Unirest.request(method, url)
-                .basicAuth(key,secret)
+                .basicAuth(client.getKey(), client.getSecret())
                 .fields(body)
                 .asJson();
 
@@ -47,7 +46,7 @@ public class ApiConnection {
      */
     protected JSONObject makeRequestWithQuery(String method, String url, HashMap<String, Object> query, HashMap<String, Object> body){
         HttpResponse<JsonNode> response = Unirest.request(method, url)
-                .basicAuth(key,secret)
+                .basicAuth(client.getKey(), client.getSecret())
                 .queryString(query)
                 .fields(body)
                 .asJson();
@@ -55,9 +54,8 @@ public class ApiConnection {
         return response.getBody().getObject();
     }
 
-    protected void setCredentials(String key, String secret){
-        this.key = key;
-        this.secret = secret;
+    protected void setClient(EngageClient client){
+        this.client = client;
     }
 
 }

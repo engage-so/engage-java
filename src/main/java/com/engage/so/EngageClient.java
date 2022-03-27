@@ -11,12 +11,8 @@ import java.security.InvalidParameterException;
  */
 public class EngageClient
 {
-    public String key;
-    public String secret;
-
-    public enum ResourceType {
-        USER,
-    }
+    private String key;
+    private String secret;
 
     public static void main( String[] args )
     {
@@ -28,11 +24,16 @@ public class EngageClient
         this.secret = secret;
     }
 
-    public Resource getResource(ResourceType resource){
-        // change to switch statement when conditions/resources increase
-        if (resource == ResourceType.USER) {
-            return new UserResource(this);
-        }
-        throw new InvalidParameterException("The resource does not exist");
+    protected void setCredentials(String key, String secret){
+        this.key = key;
+        this.secret = secret;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public String getSecret() {
+        return secret;
     }
 }

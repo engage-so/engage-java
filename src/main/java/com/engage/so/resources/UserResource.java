@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public class UserResource extends ApiConnection implements Resource {
 
     public UserResource(EngageClient client) {
-        super(client.key, client.secret);
+        super(client);
     }
 
     /**
