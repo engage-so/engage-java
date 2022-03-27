@@ -14,19 +14,25 @@ public class EngageClient
     private String key;
     private String secret;
 
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
-    }
-
     public EngageClient(String key, String secret){
+        verifyClientParams(key,secret);
         this.key = key;
         this.secret = secret;
     }
 
     protected void setCredentials(String key, String secret){
+        verifyClientParams(key,secret);
         this.key = key;
         this.secret = secret;
+    }
+
+    private void verifyClientParams(String key, String secret){
+        if(key == null || key.trim().isEmpty()){
+            throw new IllegalArgumentException("Pass a valid key");
+        }
+        if(secret == null || secret.trim().isEmpty()){
+            throw new IllegalArgumentException("Pass a valid secret");
+        }
     }
 
     public String getKey() {
