@@ -23,14 +23,14 @@ public class UserResource extends ApiConnection implements Resource {
         if(data.isEmpty()){
             throw new IllegalArgumentException("Pass the user data");
         }
-        if(!data.containsValue("uid")){
-            throw new IllegalArgumentException("The user data must contain uid");
+        if(!data.containsKey("id")){
+            throw new IllegalArgumentException("The user data must contain id");
         }
-        if(!data.containsValue("email") || !checkValidMail((String) data.get("email"))){
+        if(!data.containsKey("email") || !checkValidMail((String) data.get("email"))){
             throw new IllegalArgumentException("The user data must contain a valid email");
         }
         data = formatData(data);
-        return this.makeRequest("put","/users/"+data.get("uid"), data);
+        return this.makeRequest("put","/users/"+data.get("id"), data);
     }
 
     /**
@@ -63,10 +63,10 @@ public class UserResource extends ApiConnection implements Resource {
         if(data.isEmpty()){
             throw new IllegalArgumentException("Pass the user data");
         }
-        if(!data.containsValue("event")){
+        if(!data.containsKey("event")){
             throw new IllegalArgumentException("Event key is not defined");
         }
-        return this.makeRequest("post","/users/"+uid+"/event", data);
+        return this.makeRequest("post","/users/"+uid+"/events", data);
     }
 
     /**
@@ -86,7 +86,7 @@ public class UserResource extends ApiConnection implements Resource {
             put("event", event);
             put("value", true);
         }};
-        return this.makeRequest("post","/users/"+uid+"/event", eventObj);
+        return this.makeRequest("post","/users/"+uid+"/events", eventObj);
     }
 
     private boolean checkValidMail(String email){
@@ -103,14 +103,16 @@ public class UserResource extends ApiConnection implements Resource {
     private HashMap<String, Object> formatData(HashMap<String, Object> data){
         final String[] allowed = {"id", "email", "device_token", "device_platform", "number", "created_at", "first_name", "last_name"};
         HashMap<String, Object> params = new HashMap<>();
+        HashMap<String, Object> newData = new HashMap<>();
         data.forEach((key, value)->{
-            if(!Arrays.asList(allowed).contains(value)){
+            if(!Arrays.asList(allowed).contains(key)){
                 params.put(key, value);
-                data.remove(key);
+                return;
             }
+            newData.put(key,value);
         });
-        if(params.isEmpty()) return data;
-        data.put("meta",params);
-        return data;
+        if(params.isEmpty()) return newData;
+        newData.put("meta",params);
+        return newData;
     }
 }
