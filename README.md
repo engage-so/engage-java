@@ -10,7 +10,7 @@ The Engage java SDK lets you capture user attributes and events on your site. Yo
 ## Installation
 
 ```ssh
-composer require "engageso/engage-php"
+ 
 ```
 
 ## Configuration
