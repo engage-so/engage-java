@@ -3,7 +3,6 @@ package com.engage.so.api;
 import com.engage.so.EngageClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
@@ -12,11 +11,22 @@ import kong.unirest.json.JSONObject;
 import java.util.HashMap;
 
 public class ApiConnection {
-    public final String rootUrl = "https://api.engage.so";
+    /**
+     * The engage api root url.
+     */
+    private final String rootUrl = "https://api.engage.so";
+
+    /**
+     * EngageClient.
+     */
     private EngageClient client;
 
-    public ApiConnection (EngageClient client){
-        this.client = client;
+    /**
+     * Communication with the API.
+     * @param engageClient EngageClient
+     */
+    public ApiConnection(final EngageClient engageClient) {
+        this.client = engageClient;
         Unirest.config()
                 .defaultBaseUrl(rootUrl)
                 .setDefaultHeader("Accept", "application/json")
@@ -25,18 +35,18 @@ public class ApiConnection {
     }
 
     /**
-     * Make API request
-     * @param method
-     * @param url
-     * @param bodyData
-     * @return
+     * Make API request.
+     * @param method String
+     * @param url String
+     * @param bodyData Params
+     * @return JSONObject
      */
-    protected JSONObject makeRequest(String method, String url, HashMap<String, Object> bodyData){
+    protected JSONObject makeRequest(String method, String url, HashMap<String, Object> bodyData) {
         String data;
         try {
             ObjectMapper mapper = new ObjectMapper();
             data = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(bodyData);
-        } catch (JsonProcessingException e){
+        } catch (JsonProcessingException e) {
             throw new IllegalArgumentException("Pass a valid HashMap");
         }
         HttpResponse<JsonNode> response = Unirest.request(method, url)
@@ -48,19 +58,19 @@ public class ApiConnection {
     }
 
     /**
-     * Make a request with query parameters
-     * @param method
-     * @param url
-     * @param query
-     * @param bodyData
-     * @return
+     * Make a request with query parameters.
+     * @param method String
+     * @param url String
+     * @param query String
+     * @param bodyData params
+     * @return JSONObject
      */
-    protected JSONObject makeRequestWithQuery(String method, String url, HashMap<String, Object> query, HashMap<String, Object> bodyData){
+    protected JSONObject makeRequestWithQuery(String method, String url, HashMap<String, Object> query, HashMap<String, Object> bodyData) {
         String data;
         try {
             ObjectMapper mapper = new ObjectMapper();
             data = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(bodyData);
-        } catch (JsonProcessingException e){
+        } catch (JsonProcessingException e) {
             throw new IllegalArgumentException("Pass a valid HashMap");
         }
         HttpResponse<JsonNode> response = Unirest.request(method, url)
@@ -72,8 +82,12 @@ public class ApiConnection {
         return response.getBody().getObject();
     }
 
-    public void setClient(EngageClient client){
-        this.client = client;
+    /**
+     * Set new Client.
+     * @param engageClient EngageClient
+     */
+    public void setClient(final EngageClient engageClient) {
+        this.client = engageClient;
     }
 
 }
