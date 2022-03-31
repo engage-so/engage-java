@@ -9,9 +9,13 @@ The Engage java SDK lets you capture user attributes and events on your site. Yo
 
 ## Installation
 
-```ssh
- 
-```
+Download `engage-java.jar` and add jar file as a Module to your Java project:
+
+Download from 
+
+On Intellij IDEA: File -> Project Structure -> Modules -> Dependencies Tab -> Add -> JARs or Directories -> Attach jar
+
+On Netbeans: Project properties -> Libraries -> Compile -> ADD JAR/folder -> Add Jar
 
 ## Configuration
 
