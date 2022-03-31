@@ -11,7 +11,7 @@ The Engage java SDK lets you capture user attributes and events on your site. Yo
 
 Download `engage-java.jar` and add jar file as a Module to your Java project:
 
-Download from 
+Download from https://github.com/engage-so/engage-java/releases/tag/v1.0.0
 
 On Intellij IDEA: File -> Project Structure -> Modules -> Dependencies Tab -> Add -> JARs or Directories -> Attach jar
 
