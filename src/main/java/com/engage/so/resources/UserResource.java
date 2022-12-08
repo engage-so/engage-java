@@ -93,6 +93,117 @@ public class UserResource extends ApiConnection implements Resource {
         return this.makeRequest("post","/users/" + uid + "/events", eventObj);
     }
 
+    /**
+     * Add a user to an account
+     * @param userId unique id of user
+     * @param accountId unique id of account
+     * @param role role to add the user as
+     * @return JSONObject
+     */
+    public JSONObject addToAccount(String userId, String accountId, String role) {
+        if (userId == null || userId.trim().isEmpty()) {
+            throw new IllegalArgumentException("User id is missing");
+        }
+        if (accountId == null || accountId.trim().isEmpty()) {
+            throw new IllegalArgumentException("Account id is missing");
+        }
+        HashMap<String, Object> obj = new HashMap<String, Object>() {{
+            put("accounts", new HashMap[] {
+                    new HashMap<String, Object>() {{
+                        put("id", accountId);
+                        put("role", role);
+                    }}
+            });
+        }};
+        return this.makeRequest("post", "/users/" + userId + "/accounts", obj);
+    }
+
+    /**
+     * Add a user to an account
+     * @param userId unique id of user
+     * @param accountId unique id of account
+     * @return JSONObject
+     */
+    public JSONObject addToAccount(String userId, String accountId) {
+        if (userId == null || userId.trim().isEmpty()) {
+            throw new IllegalArgumentException("User id is missing");
+        }
+        if (accountId == null || accountId.trim().isEmpty()) {
+            throw new IllegalArgumentException("Account id is missing");
+        }
+        HashMap<String, Object> obj = new HashMap<String, Object>() {{
+            put("accounts", new HashMap[] {
+                    new HashMap<String, Object>() {{
+                        put("id", accountId);
+                    }}
+            });
+        }};
+        return this.makeRequest("post", "/users/" + userId + "/accounts", obj);
+    }
+
+    /**
+     * Remove a user from an account
+     * @param userId unique user id
+     * @param accountId unique account id
+     * @return JSONObject
+     */
+    public JSONObject removeFromAccount(String userId, String accountId) {
+        if (userId == null || userId.trim().isEmpty()) {
+            throw new IllegalArgumentException("User id is missing");
+        }
+        if (accountId == null || accountId.trim().isEmpty()) {
+            throw new IllegalArgumentException("Account id is missing");
+        }
+        return this.makeRequest("delete", "/users/" + userId + "/accounts", null);
+    }
+
+    /**
+     * This changes the user's role
+     * @param userId unique user id
+     * @param accountId account id
+     * @param role user role
+     * @return JSONObject
+     */
+    public JSONObject changeUserRole(String userId, String accountId, String role) {
+        if (userId == null || userId.trim().isEmpty()) {
+            throw new IllegalArgumentException("User id is missing");
+        }
+        if (accountId == null || accountId.trim().isEmpty()) {
+            throw new IllegalArgumentException("Account id is missing");
+        }
+        return this.makeRequest("put", "/users/" + userId + "/accounts/"  + accountId, new HashMap<>() {{
+            put("role", role);
+        }});
+    }
+
+    /**
+     * Convert users from customer to account
+     * @param userId unique user id
+     * @return JSONObject
+     */
+    public JSONObject convertToAccount(String userId) {
+        if (userId == null || userId.trim().isEmpty()) {
+            throw new IllegalArgumentException("User id is missing");
+        }
+        return this.makeRequest("POST", "/users/" + userId + "/convert", new HashMap<>() {{
+            put("type", "account");
+        }});
+    }
+
+    /**
+     * Convert users from account to customer
+     * @param userId unique user ID
+     * @return JSONObject
+     */
+    public JSONObject convertToCustomer(String userId) {
+        if (userId == null || userId.trim().isEmpty()) {
+            throw new IllegalArgumentException("User id is missing");
+        }
+        return this.makeRequest("POST", "/users/" + userId + "/convert", new HashMap<>() {{
+            put("type", "customer");
+        }});
+    }
+
     private boolean checkValidMail(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."
                 + "[a-zA-Z0-9_+&*-]+)*@"
@@ -105,7 +216,7 @@ public class UserResource extends ApiConnection implements Resource {
         return pat.matcher(email).matches();
     }
     private HashMap<String, Object> formatData(HashMap<String, Object> data) {
-        final String[] allowed = {"id", "email", "device_token", "device_platform", "number", "created_at", "first_name", "last_name"};
+        final String[] allowed = {"id", "email", "device_token", "device_platform", "number", "created_at", "first_name", "is_account", "last_name"};
         HashMap<String, Object> params = new HashMap<>();
         HashMap<String, Object> newData = new HashMap<>();
         data.forEach((key, value) -> {

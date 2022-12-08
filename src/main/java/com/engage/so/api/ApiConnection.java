@@ -42,6 +42,13 @@ public class ApiConnection {
      * @return JSONObject
      */
     protected JSONObject makeRequest(String method, String url, HashMap<String, Object> bodyData) {
+        if (bodyData == null) {
+            HttpResponse<JsonNode> response = Unirest.request(method, url)
+                    .basicAuth(client.getKey(), client.getSecret())
+                    .asJson();
+            return response.getBody().getObject();
+        }
+
         String data;
         try {
             ObjectMapper mapper = new ObjectMapper();
