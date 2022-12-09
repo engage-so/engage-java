@@ -1,16 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.engage.so.UserResourceTest
 -------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 1.565 s <<< FAILURE! - in com.engage.so.UserResourceTest
-ItShouldReturnAddAttr(com.engage.so.UserResourceTest)  Time elapsed: 0.018 s  <<< ERROR!
-java.lang.IllegalArgumentException: Pass a valid key
-	at com.engage.so.UserResourceTest.ItShouldReturnAddAttr(UserResourceTest.java:96)
-
-ItShouldReturnFormatedUserJson(com.engage.so.UserResourceTest)  Time elapsed: 0.001 s  <<< ERROR!
-java.lang.IllegalArgumentException: Pass a valid key
-	at com.engage.so.UserResourceTest.ItShouldReturnFormatedUserJson(UserResourceTest.java:80)
-
-ItShouldReturnOk(com.engage.so.UserResourceTest)  Time elapsed: 0 s  <<< ERROR!
-java.lang.IllegalArgumentException: Pass a valid key
-	at com.engage.so.UserResourceTest.ItShouldReturnOk(UserResourceTest.java:112)
-
+Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.794 s - in com.engage.so.UserResourceTest
