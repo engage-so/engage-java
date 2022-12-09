@@ -154,7 +154,7 @@ public class UserResource extends ApiConnection implements Resource {
         if (accountId == null || accountId.trim().isEmpty()) {
             throw new IllegalArgumentException("Account id is missing");
         }
-        return this.makeRequest("delete", "/users/" + userId + "/accounts", null);
+        return this.makeRequest("delete", "/users/" + userId +  "/accounts/"  + accountId, null);
     }
 
     /**

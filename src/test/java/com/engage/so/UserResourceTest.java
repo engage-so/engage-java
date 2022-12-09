@@ -15,7 +15,7 @@ public class UserResourceTest {
     private EngageClient client;
     @Before
     public void setup(){
-        client = new EngageClient("key", "secret");
+        client = new EngageClient("public", "secret");
     }
 
     @Rule
@@ -63,7 +63,7 @@ public class UserResourceTest {
         userResource.setClient(new EngageClient("test", "test"));
         JSONObject response = userResource.identify(data);
         assertTrue(response.has("error"));
-        assertEquals(response.get("error"), "Wrong authentication credentials");
+        assertEquals(response.get("error"), "Wrong authentication credentials.");
     }
 
     //indirect test for formatData private function
@@ -76,8 +76,6 @@ public class UserResourceTest {
             put("hobby","skating");
         }};
         UserResource userResource = new UserResource(client);
-        // Set new client and add your key
-        userResource.setClient(new EngageClient("", ""));
         JSONObject response = userResource.identify(data);
         System.out.println(response);
         assertTrue(response.has("meta"));
@@ -92,10 +90,7 @@ public class UserResourceTest {
             put("number", l);
         }};
         UserResource userResource = new UserResource(client);
-        // Set new client and add your key
-        userResource.setClient(new EngageClient("", ""));
         JSONObject response = userResource.addAttribute("U424", data);
-        System.out.println(response);
         assertTrue(response.has("number"));
         assertEquals(response.get("number"), "6008514751443");
     }
@@ -108,10 +103,44 @@ public class UserResourceTest {
             put("value", true);
         }};
         UserResource userResource = new UserResource(client);
-        // Set new client and add your key
-        userResource.setClient(new EngageClient("", ""));
         JSONObject response = userResource.track("U424", data);
         assertTrue(response.has("status"));
         assertEquals(response.get("status"), "ok");
+    }
+
+    @Test
+    public void ItShouldAddRemoveFromAccount(){
+        UserResource userResource = new UserResource(client);
+        // uid and u40 should exist in your account
+        JSONObject response = userResource.addToAccount("u35","u40", "developer");
+        assertTrue(response.has("uid"));
+        assertEquals(response.get("uid"), "u35");
+        JSONObject responseDelete = userResource.removeFromAccount("u35","u40");
+        assertTrue(responseDelete.has("uid"));
+        assertEquals(responseDelete.get("uid"), "u35");
+    }
+
+    @Test
+    public void ItShouldChangeAccountRole(){
+        UserResource userResource = new UserResource(client);
+        // add the account role first
+        userResource.addToAccount("u35","u40", "developer");
+        JSONObject response = userResource.changeUserRole("u35","u40", "admin");
+        assertTrue(response.has("uid"));
+        assertEquals(response.get("uid"), "u35");
+    }
+
+    @Test
+    public void ItShouldConvertToAccount(){
+        UserResource userResource = new UserResource(client);
+        JSONObject response = userResource.convertToAccount("u40");
+        assertEquals(response.get("is_account"), true);
+    }
+
+    @Test
+    public void ItShouldConvertToCustomer(){
+        UserResource userResource = new UserResource(client);
+        JSONObject response = userResource.convertToCustomer("u40");
+        assertEquals(response.get("is_account"), false);
     }
 }
