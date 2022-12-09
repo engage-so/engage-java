@@ -105,6 +105,52 @@ HashMap<String, Object> data = new HashMap<>(){{
     );
 }};
 ```
+## Convert user to account
+
+Converts a customer/user to account
+
+```java
+JSONObject response = userResource.convertToAccount("uid");
+```
+
+## Convert account to customer/user
+
+Converts a account to customer
+
+```java
+JSONObject response = userResource.convertToCustomer("aid");
+```
+
+## Add user to an account
+
+This adds a user to an account if it exists
+
+```java
+JSONObject response = userResource.addToAccount(uid, aid, role)
+```
+Where
+- uid  is the user id 
+- aid is the account id
+- role is the role of the user for the account; This can be null
+
+
+## Change a user's role in an account
+
+This changes a user's role in an account
+
+```java
+JSONObject response = userResource.changeUserRole(uid, aid, role)
+```
+
+## Remove a user from an account
+
+This removes a user from an account
+
+```java
+JSONObject response = userResource.removeFromAccount(uid, aid);
+```
+
+
 ## Set New Client
 Change the `userResource` client
 
