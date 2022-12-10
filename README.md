@@ -13,7 +13,7 @@ Download `engage-java.jar` and add jar file as a Module to your Java project:
 
 Download from https://github.com/engage-so/engage-java/releases/tag/v1.1.0
 
-On Intellij IDEA: File -> Project Structure -> Modules -> Dependencies Tab -> Add -> JARs or Directories -> Attach jar
+On IntelliJ IDEA: File -> Project Structure -> Modules -> Dependencies Tab -> Add -> JARs or Directories -> Attach jar
 
 On Netbeans: Project properties -> Libraries -> Compile -> ADD JAR/folder -> Add Jar
 
@@ -47,6 +47,7 @@ JSONObject response = userResource.identify(data);
 - `first_name`
 - `last_name`
 - `email`
+-  `is_account`
 - `number` (with international dialing code without the +)
 - `created_at` (represents when the user registered on your platform. If not added, Engage sets it to the current timestamp.)
 
